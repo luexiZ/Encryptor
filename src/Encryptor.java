@@ -16,12 +16,10 @@ public class Encryptor
         numRows = r;
         numCols = c;
     }
-
     public String[][] getLetterBlock()
     {
         return letterBlock;
     }
-
     /** Places a string into letterBlock in row-major order.
      *
      *   @param str  the string to be processed
@@ -51,7 +49,6 @@ public class Encryptor
             }
         }
     }
-
     /** Extracts encrypted string from letterBlock in column-major order.
      *
      *   Precondition: letterBlock has been filled
@@ -70,7 +67,6 @@ public class Encryptor
         }
         return str;
     }
-
     /** Encrypts a message.
      *
      *  @param message the string to be encrypted
@@ -100,7 +96,6 @@ public class Encryptor
         }
         return encryptedStr;
     }
-
     /**  Decrypts an encrypted message. All filler 'A's that may have been
      *   added during encryption will be removed, so this assumes that the
      *   original message (BEFORE it was encrypted) did NOT end in a capital A!
@@ -125,43 +120,44 @@ public class Encryptor
      */
     public String decryptMessage(String encryptedMessage)
     {
-
         int spaceOf2DArray = letterBlock.length * letterBlock[0].length;
         int fullArray = encryptedMessage.length() / spaceOf2DArray;
-        int remainder = encryptedMessage.length() % spaceOf2DArray;
         String decryptedMsg = "";
         String strs = "";
         int index = 0;
-
+        reArrange(encryptedMessage);
         for(int i = 0; i < fullArray; i++)
         {
             strs = encryptedMessage.substring(index, index + spaceOf2DArray);
             index += spaceOf2DArray;
-            fillBlock(strs);
-            for(int col = 0; col < letterBlock[0].length; col++)
+            reArrange(strs);
+            for(int row = 0; row < letterBlock.length; row++ )
             {
-                for(int row = 0; row < letterBlock.length; row++)
+                for(int col = 0; col < letterBlock[row].length; col++)
                 {
                     decryptedMsg += letterBlock[row][col];
                 }
             }
         }
-//        if(remainder != 0)
-//        {
-////            strs = message.substring(index);
-////            fillBlock(strs);
-////            encryptedStr += encryptBlock();
-//        }
+        int cutAt = 0;
+        for(int i = 0; i < decryptedMsg.length(); i++)
+        {
+            if(  !(decryptedMsg.substring(cutAt, cutAt+1).equals("A") && decryptedMsg.substring(cutAt+1, cutAt+2).equals("A")))
+            {
+                cutAt++;
+            }
+        }
+        decryptedMsg = decryptedMsg.substring(0, cutAt);
         return decryptedMsg;
     }
 
-    public void fillBlock2(String str)
+    private void reArrange(String str)
     {
         int index = 0;
         String character = "";
-        for(int i = 0; i < letterBlock.length; i++)
+        for(int j = 0; j < letterBlock[0].length; j++ )
         {
-            for(int j = 0; j < letterBlock[i].length; j++)
+            for(int i = 0; i < letterBlock.length; i++)
             {
                 if(index + 1 <= str.length())
                 {
@@ -169,7 +165,6 @@ public class Encryptor
                     letterBlock[i][j] = character;
                     index++;
                 }
-                 
             }
         }
     }
