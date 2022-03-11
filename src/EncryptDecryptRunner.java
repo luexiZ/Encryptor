@@ -7,6 +7,5 @@ public class EncryptDecryptRunner {
         System.out.println(testCase2.decryptMessage("Y !lhAok eeAunMr A or bAgw.ieAu MssAyii tAstlt!A"));
 
 
-
     }
 }

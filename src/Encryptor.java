@@ -126,7 +126,7 @@ public class Encryptor
         String decryptedMsg = "";
         String strs = "";
         int index = 0;
-        reArrange(encryptedMessage);
+//        reArrange(encryptedMessage);
         for(int i = 0; i < fullArray; i++)
         {
             strs = encryptedMessage.substring(index, index + spaceOf2DArray);
