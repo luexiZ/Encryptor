@@ -122,6 +122,7 @@ public class Encryptor
     {
         int spaceOf2DArray = letterBlock.length * letterBlock[0].length;
         int fullArray = encryptedMessage.length() / spaceOf2DArray;
+        int remainder = encryptedMessage.length() % spaceOf2DArray;
         String decryptedMsg = "";
         String strs = "";
         int index = 0;
@@ -139,12 +140,27 @@ public class Encryptor
                 }
             }
         }
-        int cutAt = 0;
-        for(int i = 0; i < decryptedMsg.length(); i++)
+//        int cutAt = 0;
+//        for(int i = 0; i < decryptedMsg.length() ; i++)
+//        {
+//            if(  ! (decryptedMsg.substring(cutAt, cutAt+1).equals("A") && decryptedMsg.substring(cutAt+1, cutAt+2).equals("A")))  // only works for multiple As
+//            {
+//                cutAt++;
+//            }
+//        }
+//        decryptedMsg = decryptedMsg.substring(0, cutAt);
+        int cutAt = decryptedMsg.length();
+        String characterCompare = "";
+        for(int i = decryptedMsg.length() -1; i > 0; i--)
         {
-            if(  !(decryptedMsg.substring(cutAt, cutAt+1).equals("A") && decryptedMsg.substring(cutAt+1, cutAt+2).equals("A")))
+            characterCompare = decryptedMsg.substring(i, i +1);
+            if(characterCompare.equals("A"))
             {
-                cutAt++;
+                cutAt--;
+            }
+            else
+            {
+                break;
             }
         }
         decryptedMsg = decryptedMsg.substring(0, cutAt);
